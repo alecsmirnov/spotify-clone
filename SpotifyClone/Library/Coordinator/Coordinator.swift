@@ -8,21 +8,15 @@ class Coordinator: Coordinatable {
     private var childCoordinators: [Coordinatable] = []
     
     func start() {}
-    
-    deinit {
-        removeAllChildCoordinators()
-    }
 }
+
+// MARK: - Child Coordinators Managing Methods
 
 extension Coordinator {
     func appendChildCoordinator(_ childCoordinator: Coordinatable) {
         guard !childCoordinators.contains(where: { $0 === childCoordinator }) else { return }
         
         childCoordinators.append(childCoordinator)
-    }
-    
-    func removeAllChildCoordinators() {
-        childCoordinators.forEach { removeChildCoordinator($0) }
     }
     
     func removeChildCoordinator(_ childCoordinator: Coordinatable) {
