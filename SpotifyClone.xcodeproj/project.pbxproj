@@ -19,9 +19,9 @@
 		8446E747268330BD00650AF6 /* ScreenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446E746268330BD00650AF6 /* ScreenFactory.swift */; };
 		8446E74A2683324600650AF6 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446E7492683324600650AF6 /* AuthCoordinator.swift */; };
 		8446E74E2683380C00650AF6 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446E74D2683380C00650AF6 /* MainCoordinator.swift */; };
+		8456A1EB26846A1300604150 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456A1EA26846A1300604150 /* DependencyContainer.swift */; };
 		845CBC0726804F4700876073 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC0626804F4700876073 /* AppDelegate.swift */; };
 		845CBC0926804F4700876073 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC0826804F4700876073 /* SceneDelegate.swift */; };
-		845CBC0B26804F4700876073 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC0A26804F4700876073 /* ViewController.swift */; };
 		845CBC1026804F4900876073 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845CBC0F26804F4900876073 /* Assets.xcassets */; };
 		845CBC1326804F4900876073 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845CBC1126804F4900876073 /* LaunchScreen.storyboard */; };
 		845CBC262680571800876073 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC252680571800876073 /* CustomViewController.swift */; };
@@ -41,10 +41,10 @@
 		8446E746268330BD00650AF6 /* ScreenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenFactory.swift; sourceTree = "<group>"; };
 		8446E7492683324600650AF6 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		8446E74D2683380C00650AF6 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		8456A1EA26846A1300604150 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		845CBC0326804F4700876073 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		845CBC0626804F4700876073 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		845CBC0826804F4700876073 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		845CBC0A26804F4700876073 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		845CBC0F26804F4900876073 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		845CBC1226804F4900876073 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		845CBC1426804F4900876073 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,13 +72,6 @@
 			path = Welcome;
 			sourceTree = "<group>";
 		};
-		8446E723268329B900650AF6 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
 		8446E724268329C100650AF6 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,14 +92,23 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
-		8446E73E2683302500650AF6 /* Factories */ = {
+		8446E73E2683302500650AF6 /* FactoriesProtocols */ = {
 			isa = PBXGroup;
 			children = (
 				8446E7422683309500650AF6 /* AppFactory.swift */,
 				8446E73F2683305000650AF6 /* CoordinatorFactory.swift */,
 				8446E746268330BD00650AF6 /* ScreenFactory.swift */,
 			);
-			path = Factories;
+			path = FactoriesProtocols;
+			sourceTree = "<group>";
+		};
+		8456A1EF2684823800604150 /* DependencyInjection */ = {
+			isa = PBXGroup;
+			children = (
+				8446E73E2683302500650AF6 /* FactoriesProtocols */,
+				8456A1EA26846A1300604150 /* DependencyContainer.swift */,
+			);
+			path = DependencyInjection;
 			sourceTree = "<group>";
 		};
 		845CBBFA26804F4700876073 = {
@@ -132,7 +134,7 @@
 				845CBC1C2680552A00876073 /* Resources */,
 				845CBC1D2680553000876073 /* Library */,
 				845CBC312680614400876073 /* Model */,
-				8446E73E2683302500650AF6 /* Factories */,
+				8456A1EF2684823800604150 /* DependencyInjection */,
 				8446E72526832AC300650AF6 /* Coordinators */,
 				845CBC20268055A900876073 /* Screens */,
 			);
@@ -172,8 +174,6 @@
 			children = (
 				8446E7222683296B00650AF6 /* Welcome */,
 				8446E724268329C100650AF6 /* Auth */,
-				8446E723268329B900650AF6 /* Login */,
-				845CBC0A26804F4700876073 /* ViewController.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -281,7 +281,6 @@
 			files = (
 				8446E74E2683380C00650AF6 /* MainCoordinator.swift in Sources */,
 				8446E73526832BB100650AF6 /* AppCoordinator.swift in Sources */,
-				845CBC0B26804F4700876073 /* ViewController.swift in Sources */,
 				8446E73226832B7500650AF6 /* AuthViewController.swift in Sources */,
 				8446E74A2683324600650AF6 /* AuthCoordinator.swift in Sources */,
 				845CBC0726804F4700876073 /* AppDelegate.swift in Sources */,
@@ -295,6 +294,7 @@
 				8446E72726832AE900650AF6 /* WelcomeViewController.swift in Sources */,
 				8446E72F26832B6B00650AF6 /* AuthView.swift in Sources */,
 				8446E73826832D2800650AF6 /* WelcomeCoordinator.swift in Sources */,
+				8456A1EB26846A1300604150 /* DependencyContainer.swift in Sources */,
 				8446E73B26832DCC00650AF6 /* Router.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

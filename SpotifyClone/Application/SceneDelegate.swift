@@ -8,9 +8,15 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    // MARK: Properties
+    
     var window: UIWindow?
     
     private var coordinator: Coordinator?
+    
+    private let appFactory: AppFactory = DependencyContainer()
+    
+    // MARK: Lifecycle
     
     func scene(
         _ scene: UIScene,
@@ -21,12 +27,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         let router = Router(rootController: navigationController)
-        let coordinator = AppCoordinator(router: router)
+        
+        coordinator = appFactory.makeAppCoordinator(router: router)
         
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
-        coordinator.start()
+        coordinator?.start()
     }
 }

@@ -9,11 +9,13 @@ import Foundation
 
 final class AppCoordinator: Coordinator {
     private var router: Routable
+    private var coordinatorFactory: CoordinatorFactory
     
     private var isLoggedIn = false
     
-    init(router: Routable) {
+    init(router: Routable, coordinatorFactory: CoordinatorFactory) {
         self.router = router
+        self.coordinatorFactory = coordinatorFactory
     }
     
     override func start() {
@@ -27,7 +29,8 @@ final class AppCoordinator: Coordinator {
 
 private extension AppCoordinator {
     func startMainFlow() {
-        let mainCoordinator = MainCoordinator(router: router)
+        // TODO: replace with MainCoordinator
+        let mainCoordinator = coordinatorFactory.makeAuthCoordinator(router: router)
         
         appendChildCoordinator(mainCoordinator)
         
@@ -35,7 +38,7 @@ private extension AppCoordinator {
     }
     
     func startWelcomeFlow() {
-        let welcomeCoordinator = WelcomeCoordinator(router: router)
+        let welcomeCoordinator = coordinatorFactory.makeWelcomeCoordinator(router: router)
         
         appendChildCoordinator(welcomeCoordinator)
         

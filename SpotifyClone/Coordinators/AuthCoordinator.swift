@@ -9,11 +9,11 @@ import Foundation
 
 final class AuthCoordinator: Coordinator {
     private var router: Routable
+    private var screenFactory: ScreenFactory
     
-    private var isLoggedIn = false
-    
-    init(router: Routable) {
+    init(router: Routable, screenFactory: ScreenFactory) {
         self.router = router
+        self.screenFactory = screenFactory
     }
     
     override func start() {
@@ -23,7 +23,7 @@ final class AuthCoordinator: Coordinator {
 
 private extension AuthCoordinator {
     func showAuthScreen() {
-        let authViewController = AuthViewController()
+        let authViewController = screenFactory.makeAuthViewController()
         
         router.setRootModule(authViewController)
     }
