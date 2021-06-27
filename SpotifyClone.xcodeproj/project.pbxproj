@@ -26,6 +26,11 @@
 		845CBC1326804F4900876073 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845CBC1126804F4900876073 /* LaunchScreen.storyboard */; };
 		845CBC262680571800876073 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC252680571800876073 /* CustomViewController.swift */; };
 		845CBC2A268057B900876073 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC29268057B900876073 /* Coordinator.swift */; };
+		845E028B26888E5F00F9D3B5 /* SpotifySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E028A26888E5F00F9D3B5 /* SpotifySession.swift */; };
+		845E02992688997200F9D3B5 /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E02982688997200F9D3B5 /* SpotifyEndpoint.swift */; };
+		845E029C26889BAB00F9D3B5 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E029B26889BAB00F9D3B5 /* SpotifyManager.swift */; };
+		845E029F26889C1500F9D3B5 /* SpotifyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E029E26889C1500F9D3B5 /* SpotifyAPI.swift */; };
+		845E02A32688ACA000F9D3B5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E02A22688ACA000F9D3B5 /* WelcomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +55,11 @@
 		845CBC1426804F4900876073 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845CBC252680571800876073 /* CustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		845CBC29268057B900876073 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		845E028A26888E5F00F9D3B5 /* SpotifySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySession.swift; sourceTree = "<group>"; };
+		845E02982688997200F9D3B5 /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
+		845E029B26889BAB00F9D3B5 /* SpotifyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
+		845E029E26889C1500F9D3B5 /* SpotifyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAPI.swift; sourceTree = "<group>"; };
+		845E02A22688ACA000F9D3B5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +78,7 @@
 			children = (
 				8446E72A26832B0E00650AF6 /* WelcomeView.swift */,
 				8446E72626832AE900650AF6 /* WelcomeViewController.swift */,
+				845E02A22688ACA000F9D3B5 /* WelcomeViewModel.swift */,
 			);
 			path = Welcome;
 			sourceTree = "<group>";
@@ -92,23 +103,30 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
-		8446E73E2683302500650AF6 /* FactoriesProtocols */ = {
+		8446E73E2683302500650AF6 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
 				8446E7422683309500650AF6 /* AppFactory.swift */,
 				8446E73F2683305000650AF6 /* CoordinatorFactory.swift */,
 				8446E746268330BD00650AF6 /* ScreenFactory.swift */,
 			);
-			path = FactoriesProtocols;
+			path = Factories;
 			sourceTree = "<group>";
 		};
 		8456A1EF2684823800604150 /* DependencyInjection */ = {
 			isa = PBXGroup;
 			children = (
-				8446E73E2683302500650AF6 /* FactoriesProtocols */,
+				8446E73E2683302500650AF6 /* Factories */,
 				8456A1EA26846A1300604150 /* DependencyContainer.swift */,
 			);
 			path = DependencyInjection;
+			sourceTree = "<group>";
+		};
+		845A11AE2685CC6300D5C4C2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		845CBBFA26804F4700876073 = {
@@ -206,8 +224,21 @@
 		845CBC312680614400876073 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				845E02892688889000F9D3B5 /* APIClient */,
+				845A11AE2685CC6300D5C4C2 /* Services */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		845E02892688889000F9D3B5 /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				845E02982688997200F9D3B5 /* SpotifyEndpoint.swift */,
+				845E028A26888E5F00F9D3B5 /* SpotifySession.swift */,
+				845E029B26889BAB00F9D3B5 /* SpotifyManager.swift */,
+				845E029E26889C1500F9D3B5 /* SpotifyAPI.swift */,
+			);
+			path = APIClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +312,8 @@
 			files = (
 				8446E74E2683380C00650AF6 /* MainCoordinator.swift in Sources */,
 				8446E73526832BB100650AF6 /* AppCoordinator.swift in Sources */,
+				845E02992688997200F9D3B5 /* SpotifyEndpoint.swift in Sources */,
+				845E029F26889C1500F9D3B5 /* SpotifyAPI.swift in Sources */,
 				8446E73226832B7500650AF6 /* AuthViewController.swift in Sources */,
 				8446E74A2683324600650AF6 /* AuthCoordinator.swift in Sources */,
 				845CBC0726804F4700876073 /* AppDelegate.swift in Sources */,
@@ -290,12 +323,15 @@
 				845CBC0926804F4700876073 /* SceneDelegate.swift in Sources */,
 				845CBC262680571800876073 /* CustomViewController.swift in Sources */,
 				8446E7432683309500650AF6 /* AppFactory.swift in Sources */,
+				845E029C26889BAB00F9D3B5 /* SpotifyManager.swift in Sources */,
 				8446E7402683305000650AF6 /* CoordinatorFactory.swift in Sources */,
 				8446E72726832AE900650AF6 /* WelcomeViewController.swift in Sources */,
 				8446E72F26832B6B00650AF6 /* AuthView.swift in Sources */,
+				845E02A32688ACA000F9D3B5 /* WelcomeViewModel.swift in Sources */,
 				8446E73826832D2800650AF6 /* WelcomeCoordinator.swift in Sources */,
 				8456A1EB26846A1300604150 /* DependencyContainer.swift in Sources */,
 				8446E73B26832DCC00650AF6 /* Router.swift in Sources */,
+				845E028B26888E5F00F9D3B5 /* SpotifySession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

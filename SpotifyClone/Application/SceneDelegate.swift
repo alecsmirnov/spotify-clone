@@ -14,7 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private var coordinator: Coordinator?
     
-    private let appFactory: AppFactory = DependencyContainer()
+    private lazy var appFactory: AppFactory = {
+        let dependencyContainer = DependencyContainer()
+        
+        dependencyContainer.spotifyAPI.delegate = self
+        
+        return dependencyContainer
+    }()
     
     // MARK: Lifecycle
     
@@ -35,5 +41,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         coordinator?.start()
+    }
+}
+
+// MARK: - SpotifyAPIDelegate
+
+extension SceneDelegate: SpotifyAPIDelegate {
+    func spotifyAPIOpenURL(_ sporifyAPI: SpotifyAPIProtocol, _ url: URL) {
+        UIApplication.shared.open(url)
     }
 }

@@ -8,7 +8,19 @@
 import Foundation
 
 final class DependencyContainer {
+    private enum Constants {
+        static let clientId = "f8b0328c82db40b2ad03982250b605ef"
+        static let clientSecret = "cf571b2013dc4caea30200f220c11a90"
+        static let redirectURI = "spotifyclone://"
+    }
     
+    let spotifyAPI = SpotifyAPI(
+        with: SpotifyManager(
+            clientId: Constants.clientId,
+            clientSecret: Constants.clientSecret,
+            redirectURI: Constants.redirectURI
+        )
+    )
 }
 
 // MARK: - AppFactory
@@ -35,7 +47,8 @@ extension DependencyContainer: CoordinatorFactory {
 
 extension DependencyContainer: ScreenFactory {
     func makeWelcomeViewController() -> WelcomeViewController {
-        let welcomeViewController = WelcomeViewController()
+        let welcomeViewModel = WelcomeViewModel(spotifyAPI: spotifyAPI)
+        let welcomeViewController = WelcomeViewController(viewModel: welcomeViewModel)
         
         return welcomeViewController
     }
