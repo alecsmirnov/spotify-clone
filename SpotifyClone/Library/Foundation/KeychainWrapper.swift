@@ -13,9 +13,9 @@ extension KeychainWrapper {
         guard let valueData = encodeValue(value) else { return }
         
         if hasValue(forKey: key) {
-            update(valueData, forKey: key)
+            updateValue(valueData, forKey: key)
         } else {
-            create(valueData, forKey: key)
+            createValue(valueData, forKey: key)
         }
     }
     
@@ -70,7 +70,7 @@ extension KeychainWrapper {
 // MARK: - Private Methods
 
 private extension KeychainWrapper {
-    static func create(_ value: Data, forKey key: String) {
+    static func createValue(_ value: Data, forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key, value: value)
         
         let addStatus = SecItemAdd(keychainDictionary, nil)
@@ -81,7 +81,7 @@ private extension KeychainWrapper {
         }
     }
     
-    static func update(_ value: Data, forKey key: String) {
+    static func updateValue(_ value: Data, forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key)
         let keychainValueDictionary = createKeychainValueDictionary(value)
         
