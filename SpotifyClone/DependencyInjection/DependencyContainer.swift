@@ -14,13 +14,15 @@ final class DependencyContainer {
         static let redirectURI = "spotifyclone://"
     }
     
-    let spotifyAPI = SpotifyAPI(
-        with: SpotifyManager(
+    let spotifyAuthService: SpotifyAuthService
+    
+    init() {
+        spotifyAuthService = SpotifyAuthService(
             clientId: Constants.clientId,
             clientSecret: Constants.clientSecret,
             redirectURI: Constants.redirectURI
         )
-    )
+    }
 }
 
 // MARK: - AppFactory
@@ -47,7 +49,7 @@ extension DependencyContainer: CoordinatorFactory {
 
 extension DependencyContainer: ScreenFactory {
     func makeWelcomeViewController() -> WelcomeViewController {
-        let welcomeViewModel = WelcomeViewModel(spotifyAPI: spotifyAPI)
+        let welcomeViewModel = WelcomeViewModel(spotifyAuthService: spotifyAuthService)
         let welcomeViewController = WelcomeViewController(viewModel: welcomeViewModel)
         
         return welcomeViewController

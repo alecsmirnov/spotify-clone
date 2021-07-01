@@ -12,10 +12,10 @@ protocol WelcomeViewModelProtocol: AnyObject {
 }
 
 final class WelcomeViewModel {
-    private let spotifyAPI: SpotifyAPIProtocol
+    private let spotifyAuthService: SpotifyAuthServiceProtocol
     
-    init(spotifyAPI: SpotifyAPIProtocol) {
-        self.spotifyAPI = spotifyAPI
+    init(spotifyAuthService: SpotifyAuthServiceProtocol) {
+        self.spotifyAuthService = spotifyAuthService
     }
 }
 
@@ -23,6 +23,6 @@ final class WelcomeViewModel {
 
 extension WelcomeViewModel: WelcomeViewModelProtocol {
     func signIn() {
-        spotifyAPI.signIn()
+        spotifyAuthService.authorize()
     }
 }

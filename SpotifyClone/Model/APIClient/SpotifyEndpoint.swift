@@ -9,6 +9,7 @@ import Foundation
 
 enum SpotifyEndpoint {
     case authorize
+    case token
 }
 
 extension SpotifyEndpoint {
@@ -18,6 +19,8 @@ extension SpotifyEndpoint {
         switch self {
         case .authorize:
             urlString = "https://accounts.spotify.com/authorize"
+        case .token:
+            urlString = "https://accounts.spotify.com/api/token"
         }
         
         return urlString

@@ -12,15 +12,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    private var dependencyContainer: DependencyContainer?
     private var coordinator: Coordinator?
-    
-    private lazy var appFactory: AppFactory = {
-        let dependencyContainer = DependencyContainer()
-        
-        dependencyContainer.spotifyAPI.delegate = self
-        
-        return dependencyContainer
-    }()
     
     // MARK: Lifecycle
     
@@ -31,10 +24,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        setupWindow(windowScene: windowScene)
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        
+        dependencyContainer?.spotifyAuthService.fetchAccessToken(from: url)
+    }
+}
+
+// MARK: - Window Methods
+
+private extension SceneDelegate {
+    func setupWindow(windowScene: UIWindowScene) {
+        setupDependencyContainer()
+        
         let navigationController = UINavigationController()
         let router = Router(rootController: navigationController)
         
-        coordinator = appFactory.makeAppCoordinator(router: router)
+        coordinator = dependencyContainer?.makeAppCoordinator(router: router)
         
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
@@ -42,12 +51,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         coordinator?.start()
     }
-}
-
-// MARK: - SpotifyAPIDelegate
-
-extension SceneDelegate: SpotifyAPIDelegate {
-    func spotifyAPIOpenURL(_ sporifyAPI: SpotifyAPIProtocol, _ url: URL) {
-        UIApplication.shared.open(url)
+    
+    func setupDependencyContainer() {
+        dependencyContainer = DependencyContainer()
+        
+        dependencyContainer?.spotifyAuthService.openAuthorizeURLCompletion = { url in
+            UIApplication.shared.open(url)
+        }
     }
 }

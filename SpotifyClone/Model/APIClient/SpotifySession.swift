@@ -14,29 +14,67 @@ struct SpotifySession {
         return expirationDate < Date()
     }
     
-    let accessToken: String
-    let refreshToken: String
-    let expiresIn: Int
+    var accessToken: String {
+        return clientData.accessToken
+    }
+    
+    var refreshToken: String {
+        return clientData.refreshToken
+    }
+    
+    var expiresIn: Int {
+        return clientData.expiresIn
+    }
     
     private var expirationDate: Date {
         return Date().addingTimeInterval(TimeInterval(expiresIn))
     }
     
+    private let clientData: SpotifyClientData
+    
+    // MARK: Constants
+    
+    private enum Constants {
+        static let sessionKey = "SpotifySession"
+    }
+    
     // MARK: Init
     
-    init(accessToken: String, refreshToken: String, expiresIn: Int) {
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
-        self.expiresIn = expiresIn
+    init(with clientData: SpotifyClientData) {
+        self.clientData = clientData
     }
 }
 
-// MARK: - Decodable
+// MARK: - Private Methods
 
-extension SpotifySession: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case refreshToken = "refresh_token"
-        case expiresIn = "expires_in"
-    }
-}
+//private extension SpotifySession {
+//    func save() {
+//        let encoder = JSONEncoder()
+//        
+//        if let encode = try? encoder.encode(self) {
+//            UserDefaults.standard.setValue(encode, forKey: Constants.sessionKey)
+//        } else {
+//            assertionFailure("Unable to parse JSON")
+//        }
+//    }
+//    
+//    static func load() -> SpotifySession? {
+//        var session: SpotifySession?
+//        
+//        if let savedSession = UserDefaults.standard.object(forKey: Constants.sessionKey) as? Data {
+//            let decoder = JSONDecoder()
+//            
+//            if let loadedSession = try? decoder.decode(SpotifySession.self, from: savedSession) {
+//                session = loadedSession
+//            } else {
+//                assertionFailure("Unable to parse JSON")
+//            }
+//        }
+//        
+//        return session
+//    }
+//}
+
+// MARK: - Codable
+
+//extension SpotifySession: Codable {}
