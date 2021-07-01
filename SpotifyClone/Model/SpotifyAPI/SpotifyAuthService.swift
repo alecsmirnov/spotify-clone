@@ -21,11 +21,11 @@ final class SpotifyAuthService {
         return session?.isExpired ?? false
     }
     
+    private var session: SpotifySession?
+    
     private let clientId: String
     private let clientSecret: String
     private let redirectURI: String
-    
-    private var session: SpotifySession?
     
     // MARK: Init
     
@@ -33,6 +33,8 @@ final class SpotifyAuthService {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.redirectURI = redirectURI
+        
+        session = SpotifySession()
     }
 }
 
@@ -55,7 +57,6 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
         authorizeURLComponents.queryItems = queryItems
         
         if let authorizeURL = authorizeURLComponents.url {
-            print("AUTH URL:\n \(authorizeURL)")
             openAuthorizeURLCompletion?(authorizeURL)
         }
     }
@@ -68,8 +69,10 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
             return
         }
         
-        RequestBuilder.executeTask(with: request) { data in
-            print(data)
+        RequestBuilder.executeTask(with: request) { [weak self] data in
+            guard let authResponse = data?.decode(AuthResponse.self) else { return }
+            
+            self?.session = SpotifySession(with: authResponse)
         }
     }
 }
@@ -77,6 +80,30 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
 // MARK: - Helper Methods
 
 private extension SpotifyAuthService {
+    func authenticationCode(from url: URL) -> String? {
+        guard
+            let components = URLComponents(string: url.absoluteString),
+            let queryItems = components.queryItems
+        else {
+            assertionFailure("Unable to get URL Components")
+            return nil
+        }
+        
+        guard
+            let codeItem = queryItems.first(where: { $0.name == "code" }),
+            let authenticationCode = codeItem.value
+        else {
+            if let errorItem = queryItems.first(where: { $0.name == "error" }),
+               let error = errorItem.value {
+                assertionFailure("Error: \(error)")
+            }
+            
+            return nil
+        }
+        
+        return authenticationCode
+    }
+    
     func createRequest(with authenticationCode: String) -> URLRequest? {
         let clientString = "\(clientId):\(clientSecret)"
         
@@ -107,29 +134,5 @@ private extension SpotifyAuthService {
         }
         
         return request
-    }
-    
-    func authenticationCode(from url: URL) -> String? {
-        guard
-            let components = URLComponents(string: url.absoluteString),
-            let queryItems = components.queryItems
-        else {
-            assertionFailure("Unable to get URL Components")
-            return nil
-        }
-        
-        guard
-            let codeItem = queryItems.first(where: { $0.name == "code" }),
-            let authenticationCode = codeItem.value
-        else {
-            if let errorItem = queryItems.first(where: { $0.name == "error" }),
-               let error = errorItem.value {
-                assertionFailure("Error: \(error)")
-            }
-            
-            return nil
-        }
-        
-        return authenticationCode
     }
 }
