@@ -55,6 +55,7 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
         authorizeURLComponents.queryItems = queryItems
         
         if let authorizeURL = authorizeURLComponents.url {
+            print("AUTH URL:\n \(authorizeURL)")
             openAuthorizeURLCompletion?(authorizeURL)
         }
     }
