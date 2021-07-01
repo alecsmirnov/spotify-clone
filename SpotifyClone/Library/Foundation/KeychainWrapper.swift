@@ -10,10 +10,12 @@ enum KeychainWrapper {
 
 extension KeychainWrapper {
     static func setValue<T: Codable>(_ value: T, forKey key: String) {
+        guard let valueData = encodeValue(value) else { return }
+        
         if hasValue(forKey: key) {
-            update(value, forKey: key)
+            update(valueData, forKey: key)
         } else {
-            create(value, forKey: key)
+            create(valueData, forKey: key)
         }
     }
     
@@ -27,7 +29,7 @@ extension KeychainWrapper {
             returnStatus == errSecSuccess,
             let data = returnObjectReference as? Data
         else {
-            assertionFailure("Unable to get keychain item")
+            assertionFailure("Unable to get object")
             return nil
         }
         
@@ -40,7 +42,7 @@ extension KeychainWrapper {
         let removeStatus = SecItemDelete(keychainDictionary)
         
         guard removeStatus == errSecSuccess else {
-            assertionFailure("Unable to remove item")
+            assertionFailure("Unable to remove object")
             return
         }
     }
@@ -57,7 +59,7 @@ extension KeychainWrapper {
         case errSecItemNotFound:
             isExist = false
         default:
-            assertionFailure("Unable to get keychain item")
+            assertionFailure("Unable to get object")
             isExist = false
         }
         
@@ -68,25 +70,25 @@ extension KeychainWrapper {
 // MARK: - Private Methods
 
 private extension KeychainWrapper {
-    static func create<T: Codable>(_ value: T, forKey key: String) {
+    static func create(_ value: Data, forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key, value: value)
         
         let addStatus = SecItemAdd(keychainDictionary, nil)
         
         guard addStatus == errSecSuccess else {
-            assertionFailure("Unable to store keychain item")
+            assertionFailure("Unable to store value")
             return
         }
     }
     
-    static func update<T: Codable>(_ value: T, forKey key: String) {
+    static func update(_ value: Data, forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key)
         let keychainValueDictionary = createKeychainValueDictionary(value)
         
         let updateStatus = SecItemUpdate(keychainDictionary, keychainValueDictionary)
         
         guard updateStatus == errSecSuccess else {
-            assertionFailure("Unable to update keychain item")
+            assertionFailure("Unable to update value")
             return
         }
     }
@@ -95,21 +97,20 @@ private extension KeychainWrapper {
 // MARK: - Keychain Dictionary Helpers
 
 private extension KeychainWrapper {
-    static func createKeychainDictionary<T: Codable>(
-        forKey key: String,
-        value: T
-    ) -> CFDictionary {
-        var keychainDictionary = createKeychainKeyDictionary(key)
-        keychainDictionary[kSecValueData] = encodeValue(value)
-        
-        return keychainDictionary as CFDictionary
-    }
-    
     static func createKeychainDictionary(
         forKey key: String,
+        value: Data? = nil,
         shouldReturn: Bool? = nil
     ) -> CFDictionary {
-        var keychainDictionary = createKeychainKeyDictionary(key)
+        var keychainDictionary: [CFString: Any] = [
+            kSecAttrAccount: key,
+            kSecAttrService: defaultService,
+            kSecClass: kSecClassGenericPassword
+        ]
+        
+        if let value = value {
+            keychainDictionary[kSecValueData] = value
+        }
         
         if let shouldReturn = shouldReturn {
             keychainDictionary[kSecReturnData] = shouldReturn
@@ -118,18 +119,8 @@ private extension KeychainWrapper {
         return keychainDictionary as CFDictionary
     }
     
-    static func createKeychainKeyDictionary(_ key: String) -> [CFString: Any] {
-        let keychainDictionary: [CFString: Any] = [
-            kSecAttrAccount: key,
-            kSecAttrService: defaultService,
-            kSecClass: kSecClassGenericPassword
-        ]
-        
-        return keychainDictionary
-    }
-    
-    static func createKeychainValueDictionary<T: Codable>(_ value: T) -> CFDictionary {
-        return [kSecValueData: encodeValue(value)] as CFDictionary
+    static func createKeychainValueDictionary(_ value: Data) -> CFDictionary {
+        return [kSecValueData: value] as CFDictionary
     }
 }
 
