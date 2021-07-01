@@ -24,6 +24,7 @@
 		845B93CA268DAF3F0010A3C4 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B93C9268DAF3F0010A3C4 /* RequestBuilder.swift */; };
 		845B93D6268DE7220010A3C4 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B93D5268DE7220010A3C4 /* AuthResponse.swift */; };
 		845B93D9268DE85B0010A3C4 /* Data+decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B93D8268DE85B0010A3C4 /* Data+decode.swift */; };
+		845B93E9268DFDED0010A3C4 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B93E8268DFDED0010A3C4 /* KeychainWrapper.swift */; };
 		845CBC0726804F4700876073 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC0626804F4700876073 /* AppDelegate.swift */; };
 		845CBC0926804F4700876073 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC0826804F4700876073 /* SceneDelegate.swift */; };
 		845CBC1026804F4900876073 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845CBC0F26804F4900876073 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		845B93C9268DAF3F0010A3C4 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		845B93D5268DE7220010A3C4 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		845B93D8268DE85B0010A3C4 /* Data+decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+decode.swift"; sourceTree = "<group>"; };
+		845B93E8268DFDED0010A3C4 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		845CBC0326804F4700876073 /* SpotifyClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		845CBC0626804F4700876073 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		845CBC0826804F4700876073 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,8 +139,8 @@
 		845B93D3268DE5310010A3C4 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				845B93E1268DEFDD0010A3C4 /* KeychainWrapper */,
-				845B93D8268DE85B0010A3C4 /* Data+decode.swift */,
+				845B93EB268E1EA70010A3C4 /* Extensions */,
+				845B93E8268DFDED0010A3C4 /* KeychainWrapper.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -151,11 +153,12 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		845B93E1268DEFDD0010A3C4 /* KeychainWrapper */ = {
+		845B93EB268E1EA70010A3C4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				845B93D8268DE85B0010A3C4 /* Data+decode.swift */,
 			);
-			path = KeychainWrapper;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		845CBBFA26804F4700876073 = {
@@ -344,6 +347,7 @@
 				8446E74E2683380C00650AF6 /* MainCoordinator.swift in Sources */,
 				8446E73526832BB100650AF6 /* AppCoordinator.swift in Sources */,
 				845B93D9268DE85B0010A3C4 /* Data+decode.swift in Sources */,
+				845B93E9268DFDED0010A3C4 /* KeychainWrapper.swift in Sources */,
 				845B93CA268DAF3F0010A3C4 /* RequestBuilder.swift in Sources */,
 				845E02992688997200F9D3B5 /* SpotifyEndpoint.swift in Sources */,
 				8446E73226832B7500650AF6 /* AuthViewController.swift in Sources */,

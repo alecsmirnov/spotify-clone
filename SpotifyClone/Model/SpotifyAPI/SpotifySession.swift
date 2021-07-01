@@ -47,28 +47,10 @@ struct SpotifySession: Codable {
 
 private extension SpotifySession {
     static func save(_ session: SpotifySession) {
-        let encoder = JSONEncoder()
-        
-        if let encode = try? encoder.encode(session) {
-            UserDefaults.standard.setValue(encode, forKey: key)
-        } else {
-            assertionFailure("Unable to save data")
-        }
+        KeychainWrapper.setValue(session, forKey: key)
     }
     
     static func load() -> SpotifySession? {
-        var session: SpotifySession?
-        
-        if let savedSession = UserDefaults.standard.object(forKey: key) as? Data {
-            let decoder = JSONDecoder()
-            
-            if let loadedSession = try? decoder.decode(SpotifySession.self, from: savedSession) {
-                session = loadedSession
-            } else {
-                assertionFailure("Unable to load data")
-            }
-        }
-        
-        return session
+        return KeychainWrapper.object(forKey: key)
     }
 }
