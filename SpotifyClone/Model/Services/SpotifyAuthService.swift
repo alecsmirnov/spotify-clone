@@ -80,7 +80,7 @@ private extension SpotifyAuthService {
     func createRequest(with authenticationCode: String) -> URLRequest? {
         let clientString = "\(clientId):\(clientSecret)"
         
-        guard let clientData = clientString.data(using: .utf8)?.base64EncodedData() else {
+        guard let clientData = clientString.data(using: .utf8)?.base64EncodedString() else {
             assertionFailure("Unable to get Data from String")
             return nil
         }

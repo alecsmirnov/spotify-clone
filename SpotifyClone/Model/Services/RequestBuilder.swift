@@ -49,7 +49,7 @@ extension RequestBuilder {
                 return
             }
             
-            if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) {
+            if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
                 assertionFailure("Warning, status code: \(response.statusCode)")
                 return
             }
