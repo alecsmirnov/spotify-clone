@@ -1,10 +1,3 @@
-//
-//  Data+decode.swift
-//  SpotifyClone
-//
-//  Created by Admin on 01.07.2021.
-//
-
 import Foundation
 
 extension Data {
