@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SpotifySession: Codable {
+struct SpotifySession {
     // MARK: Properties
     
     var isExpired: Bool {
@@ -52,5 +52,15 @@ private extension SpotifySession {
     
     static func load() -> SpotifySession? {
         return KeychainWrapper.object(forKey: key)
+    }
+}
+
+// MARK: - Codable
+
+extension SpotifySession: Codable {
+    enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case refreshToken = "refresh_token"
+        case expiresIn = "expires_in"
     }
 }
