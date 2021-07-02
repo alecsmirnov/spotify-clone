@@ -19,8 +19,8 @@ extension Coordinator {
         childCoordinators.append(childCoordinator)
     }
     
-    func removeChildCoordinator(_ childCoordinator: Coordinatable) {
-        guard !childCoordinators.isEmpty else { return }
+    func removeChildCoordinator(_ childCoordinator: Coordinatable?) {
+        guard !childCoordinators.isEmpty, let childCoordinator = childCoordinator else { return }
         
         if let childCoordinator = childCoordinator as? Coordinator {
             childCoordinator.childCoordinators.forEach { childCoordinator.removeChildCoordinator($0) }
