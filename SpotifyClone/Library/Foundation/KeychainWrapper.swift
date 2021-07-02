@@ -25,15 +25,18 @@ extension KeychainWrapper {
         var returnObjectReference: AnyObject?
         let returnStatus = SecItemCopyMatching(keychainDictionary, &returnObjectReference)
         
-        guard
-            returnStatus == errSecSuccess,
-            let data = returnObjectReference as? Data
-        else {
+        guard returnStatus == errSecSuccess || returnStatus == errSecItemNotFound else {
             assertionFailure("Unable to get object")
             return nil
         }
         
-        return decodeData(data)
+        var value: T?
+
+        if let data = returnObjectReference as? Data {
+            value = decodeData(data)
+        }
+        
+        return value
     }
     
     static func removeObject(forKey key: String) {
