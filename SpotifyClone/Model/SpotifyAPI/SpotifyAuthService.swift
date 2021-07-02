@@ -92,6 +92,22 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol, SpotifyLoginServicePro
             }
         }
     }
+    
+    func refreshAccessToken() {
+        guard let request = createRefreshRequest() else { return }
+        
+        RequestBuilder.executeTask(with: request) { [weak self] data in
+            guard let authResponse = data?.decode(AuthResponse.self) else {
+                DispatchQueue.main.async {
+                    self?.authorizeCompletion?(false)
+                }
+                
+                return
+            }
+            
+            self?.session?.update(with: authResponse)
+        }
+    }
 }
 
 // MARK: - Helper Methods
@@ -138,6 +154,39 @@ private extension SpotifyAuthService {
             "grant_type": "authorization_code",
             "code": authenticationCode,
             "redirect_uri": redirectURI
+        ]
+        
+        guard let request = RequestBuilder.build(
+            urlString: SpotifyEndpoint.token.urlString,
+            headers: headers,
+            parameters: parameters,
+            method: .post
+        ) else {
+            assertionFailure("Unable to build request from URL")
+            return nil
+        }
+        
+        return request
+    }
+    
+    func createRefreshRequest() -> URLRequest? {
+        guard let refreshToken = session?.refreshToken else { return nil }
+        
+        let clientString = "\(clientId):\(clientSecret)"
+        
+        guard let clientData = clientString.data(using: .utf8)?.base64EncodedString() else {
+            assertionFailure("Unable to get Data from String")
+            return nil
+        }
+        
+        let headers: [String: String] = [
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic \(clientData)"
+        ]
+        
+        let parameters: [String: String] = [
+            "grant_type": "refresh_token",
+            "refresh_token": refreshToken
         ]
         
         guard let request = RequestBuilder.build(

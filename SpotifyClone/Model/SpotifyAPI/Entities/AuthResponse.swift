@@ -10,7 +10,7 @@ import Foundation
 struct AuthResponse {
     let accessToken: String
     let expiresIn: Int
-    let refreshToken: String
+    var refreshToken: String?
     let scope: String
     let tokenType: String
 }

@@ -28,9 +28,11 @@ struct SpotifySession {
     
     // MARK: Init
     
-    init(with authResponse: AuthResponse) {
+    init?(with authResponse: AuthResponse) {
+        guard let refreshToken = authResponse.refreshToken else { return nil }
+        
         self.accessToken = authResponse.accessToken
-        self.refreshToken = authResponse.refreshToken
+        self.refreshToken = refreshToken
         self.expiresIn = authResponse.expiresIn
         
         SpotifySession.save(self)
@@ -40,6 +42,17 @@ struct SpotifySession {
         guard let session = SpotifySession.load() else { return nil }
         
         self = session
+    }
+}
+
+// MARK: - Public Methods
+
+extension SpotifySession {
+    mutating func update(with authResponse: AuthResponse) {
+        self.accessToken = authResponse.accessToken
+        self.expiresIn = authResponse.expiresIn
+        
+        SpotifySession.save(self)
     }
 }
 
