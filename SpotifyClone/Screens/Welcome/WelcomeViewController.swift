@@ -10,7 +10,9 @@ import UIKit
 final class WelcomeViewController: CustomViewController<WelcomeView> {
     // MARK: Properties
     
-    let viewModel: WelcomeViewModelProtocol
+    var onWelcomeCompletion: ((Bool) -> Void)?
+    
+    private let viewModel: WelcomeViewModelProtocol
     
     // MARK: Init
     
@@ -38,7 +40,9 @@ final class WelcomeViewController: CustomViewController<WelcomeView> {
 private extension WelcomeViewController {
     func setupWelcomeViewActions() {
         customView.didTapSignInButtonCompletion = { [weak self] in
-            self?.viewModel.signIn()
+            self?.viewModel.signIn { success in
+                self?.onWelcomeCompletion?(success)
+            }
         }
     }
 }

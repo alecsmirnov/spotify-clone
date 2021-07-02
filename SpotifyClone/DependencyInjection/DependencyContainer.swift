@@ -29,7 +29,7 @@ final class DependencyContainer {
 
 extension DependencyContainer: AppFactory {
     func makeAppCoordinator(router: Routable) -> AppCoordinator {
-        return AppCoordinator(router: router, coordinatorFactory: self)
+        return AppCoordinator(router: router, coordinatorFactory: self, spotifyLoginService: spotifyAuthService)
     }
 }
 

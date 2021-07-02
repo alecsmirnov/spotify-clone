@@ -8,24 +8,28 @@
 import Foundation
 
 final class AppCoordinator: Coordinator {
-    private var router: Routable
-    private var coordinatorFactory: CoordinatorFactory
+    private let router: Routable
+    private let coordinatorFactory: CoordinatorFactory
     
-    private var isLoggedIn = false
+    private let spotifyLoginService: SpotifyLoginServiceProtocol
     
-    init(router: Routable, coordinatorFactory: CoordinatorFactory) {
+    init(router: Routable, coordinatorFactory: CoordinatorFactory, spotifyLoginService: SpotifyLoginServiceProtocol) {
         self.router = router
         self.coordinatorFactory = coordinatorFactory
+        
+        self.spotifyLoginService = spotifyLoginService
     }
     
     override func start() {
-        if isLoggedIn {
+        if spotifyLoginService.isLoggedIn {
             startMainFlow()
         } else {
             startWelcomeFlow()
         }
     }
 }
+
+// MARK: - Flow Methods
 
 private extension AppCoordinator {
     func startMainFlow() {
@@ -39,6 +43,13 @@ private extension AppCoordinator {
     
     func startWelcomeFlow() {
         let welcomeCoordinator = coordinatorFactory.makeWelcomeCoordinator(router: router)
+        
+        welcomeCoordinator.finishFlow = { [weak self, weak welcomeCoordinator] success in
+            guard success else { return }
+            
+            self?.start()
+            self?.removeChildCoordinator(welcomeCoordinator)
+        }
         
         appendChildCoordinator(welcomeCoordinator)
         

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WelcomeViewModelProtocol: AnyObject {
-    func signIn()
+    func signIn(completion: @escaping ((Bool) -> Void))
 }
 
 final class WelcomeViewModel {
@@ -22,7 +22,7 @@ final class WelcomeViewModel {
 // MARK: - WelcomeViewModelProtocol
 
 extension WelcomeViewModel: WelcomeViewModelProtocol {
-    func signIn() {
-        spotifyAuthService.authorize()
+    func signIn(completion: @escaping ((Bool) -> Void)) {
+        spotifyAuthService.authorize(completion: completion)
     }
 }

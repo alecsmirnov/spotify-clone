@@ -8,8 +8,11 @@
 import Foundation
 
 protocol SpotifyAuthServiceProtocol: AnyObject {
-    func authorize()
-    func fetchAccessToken(from url: URL)
+    func authorize(completion: @escaping ((Bool) -> Void))
+}
+
+protocol SpotifyLoginServiceProtocol: AnyObject {
+    var isLoggedIn: Bool { get }
 }
 
 final class SpotifyAuthService {
@@ -17,11 +20,13 @@ final class SpotifyAuthService {
     
     var openAuthorizeURLCompletion: ((URL) -> Void)?
     
-    var isAuthenticated: Bool {
-        return session?.isExpired ?? false
+    var isLoggedIn: Bool {
+        return !(session?.isExpired ?? true)
     }
     
     private var session: SpotifySession?
+    
+    private var authorizeCompletion: ((Bool) -> Void)?
     
     private let clientId: String
     private let clientSecret: String
@@ -40,8 +45,8 @@ final class SpotifyAuthService {
 
 // MARK: - Public Methods
 
-extension SpotifyAuthService: SpotifyAuthServiceProtocol {
-    func authorize() {
+extension SpotifyAuthService: SpotifyAuthServiceProtocol, SpotifyLoginServiceProtocol {
+    func authorize(completion: @escaping ((Bool) -> Void)) {
         guard var authorizeURLComponents = URLComponents(string: SpotifyEndpoint.authorize.urlString) else {
             assertionFailure("Unable to get URL Components")
             return
@@ -59,6 +64,8 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
         if let authorizeURL = authorizeURLComponents.url {
             openAuthorizeURLCompletion?(authorizeURL)
         }
+        
+        authorizeCompletion = completion
     }
     
     func fetchAccessToken(from url: URL) {
@@ -70,9 +77,19 @@ extension SpotifyAuthService: SpotifyAuthServiceProtocol {
         }
         
         RequestBuilder.executeTask(with: request) { [weak self] data in
-            guard let authResponse = data?.decode(AuthResponse.self) else { return }
+            guard let authResponse = data?.decode(AuthResponse.self) else {
+                DispatchQueue.main.async {
+                    self?.authorizeCompletion?(false)
+                }
+                
+                return
+            }
             
             self?.session = SpotifySession(with: authResponse)
+            
+            DispatchQueue.main.async {
+                self?.authorizeCompletion?(true)
+            }
         }
     }
 }
