@@ -31,6 +31,9 @@
 		845CBC1326804F4900876073 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845CBC1126804F4900876073 /* LaunchScreen.storyboard */; };
 		845CBC262680571800876073 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC252680571800876073 /* CustomViewController.swift */; };
 		845CBC2A268057B900876073 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBC29268057B900876073 /* Coordinator.swift */; };
+		845DB86E268F421800DD0D7D /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845DB86D268F421800DD0D7D /* MainTabBarController.swift */; };
+		845DB871268F4A4000DD0D7D /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845DB870268F4A4000DD0D7D /* HomeCoordinator.swift */; };
+		845DB874268F4A4B00DD0D7D /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845DB873268F4A4B00DD0D7D /* SearchCoordinator.swift */; };
 		845E028B26888E5F00F9D3B5 /* SpotifySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E028A26888E5F00F9D3B5 /* SpotifySession.swift */; };
 		845E02992688997200F9D3B5 /* SpotifyEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E02982688997200F9D3B5 /* SpotifyEndpoint.swift */; };
 		845E02A32688ACA000F9D3B5 /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E02A22688ACA000F9D3B5 /* WelcomeViewModel.swift */; };
@@ -63,6 +66,9 @@
 		845CBC1426804F4900876073 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845CBC252680571800876073 /* CustomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		845CBC29268057B900876073 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		845DB86D268F421800DD0D7D /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		845DB870268F4A4000DD0D7D /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		845DB873268F4A4B00DD0D7D /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		845E028A26888E5F00F9D3B5 /* SpotifySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySession.swift; sourceTree = "<group>"; };
 		845E02982688997200F9D3B5 /* SpotifyEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyEndpoint.swift; sourceTree = "<group>"; };
 		845E02A22688ACA000F9D3B5 /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -105,6 +111,8 @@
 				8446E73726832D2800650AF6 /* WelcomeCoordinator.swift */,
 				8446E7492683324600650AF6 /* AuthCoordinator.swift */,
 				8446E74D2683380C00650AF6 /* MainCoordinator.swift */,
+				845DB870268F4A4000DD0D7D /* HomeCoordinator.swift */,
+				845DB873268F4A4B00DD0D7D /* SearchCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -223,6 +231,7 @@
 		845CBC20268055A900876073 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				845DB86D268F421800DD0D7D /* MainTabBarController.swift */,
 				8446E7222683296B00650AF6 /* Welcome */,
 				8446E724268329C100650AF6 /* Auth */,
 			);
@@ -363,6 +372,9 @@
 				8446E7402683305000650AF6 /* CoordinatorFactory.swift in Sources */,
 				8446E72726832AE900650AF6 /* WelcomeViewController.swift in Sources */,
 				8446E72F26832B6B00650AF6 /* AuthView.swift in Sources */,
+				845DB874268F4A4B00DD0D7D /* SearchCoordinator.swift in Sources */,
+				845DB871268F4A4000DD0D7D /* HomeCoordinator.swift in Sources */,
+				845DB86E268F421800DD0D7D /* MainTabBarController.swift in Sources */,
 				845E02A32688ACA000F9D3B5 /* WelcomeViewModel.swift in Sources */,
 				8446E73826832D2800650AF6 /* WelcomeCoordinator.swift in Sources */,
 				8456A1EB26846A1300604150 /* DependencyContainer.swift in Sources */,

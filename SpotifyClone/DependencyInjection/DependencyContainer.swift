@@ -7,6 +7,9 @@
 
 import Foundation
 
+// TODO: Remove
+import UIKit
+
 final class DependencyContainer {
     private enum Constants {
         static let clientId = "f8b0328c82db40b2ad03982250b605ef"
@@ -43,6 +46,18 @@ extension DependencyContainer: CoordinatorFactory {
     func makeAuthCoordinator(router: Routable) -> AuthCoordinator {
         return AuthCoordinator(router: router, screenFactory: self)
     }
+    
+    func makeMainCoordinator(router: Routable) -> MainCoordinator {
+        return MainCoordinator(router: router, coordinatorFactory: self, screenFactory: self)
+    }
+    
+    func makeHomeCoordinator(router: Routable) -> HomeCoordinator {
+        return HomeCoordinator(router: router, screenFactory: self)
+    }
+    
+    func makeSearchCoordinator(router: Routable) -> SearchCoordinator {
+        return SearchCoordinator(router: router, screenFactory: self)
+    }
 }
 
 // MARK: - ScreenFactory
@@ -59,5 +74,27 @@ extension DependencyContainer: ScreenFactory {
         let authViewController = AuthViewController()
         
         return authViewController
+    }
+    
+    func makeMainTabBarController() -> MainTabBarController {
+        let mainTabBarController = MainTabBarController()
+        
+        return mainTabBarController
+    }
+    
+    func makeHomeViewController() -> UIViewController {
+        let viewController = UIViewController()
+        
+        viewController.view.backgroundColor = .green
+        
+        return viewController
+    }
+    
+    func makeSearchViewController() -> UIViewController {
+        let viewController = UIViewController()
+        
+        viewController.view.backgroundColor = .systemIndigo
+        
+        return viewController
     }
 }

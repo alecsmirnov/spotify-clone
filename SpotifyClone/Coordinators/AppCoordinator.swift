@@ -34,7 +34,7 @@ final class AppCoordinator: Coordinator {
 private extension AppCoordinator {
     func startMainFlow() {
         // TODO: replace with MainCoordinator
-        let mainCoordinator = coordinatorFactory.makeAuthCoordinator(router: router)
+        let mainCoordinator = coordinatorFactory.makeMainCoordinator(router: router)
         
         appendChildCoordinator(mainCoordinator)
         

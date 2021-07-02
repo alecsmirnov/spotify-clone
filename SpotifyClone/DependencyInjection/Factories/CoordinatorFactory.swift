@@ -8,5 +8,8 @@
 protocol CoordinatorFactory {
     func makeWelcomeCoordinator(router: Routable) -> WelcomeCoordinator
     func makeAuthCoordinator(router: Routable) -> AuthCoordinator
-    //func makeMainCoordinator(router: Routable)
+    
+    func makeMainCoordinator(router: Routable) -> MainCoordinator
+    func makeHomeCoordinator(router: Routable) -> HomeCoordinator
+    func makeSearchCoordinator(router: Routable) -> SearchCoordinator
 }
