@@ -23,10 +23,10 @@ extension KeychainWrapper {
         let keychainDictionary = createKeychainDictionary(forKey: key, shouldReturn: true)
         
         var returnObjectReference: AnyObject?
-        let returnStatus = SecItemCopyMatching(keychainDictionary, &returnObjectReference)
+        let status = SecItemCopyMatching(keychainDictionary, &returnObjectReference)
         
-        guard returnStatus == errSecSuccess || returnStatus == errSecItemNotFound else {
-            assertionFailure("Unable to get object")
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            assertionFailure(OSStatusToError(status).localizedDescription)
             return nil
         }
         
@@ -42,10 +42,10 @@ extension KeychainWrapper {
     static func removeObject(forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key)
         
-        let removeStatus = SecItemDelete(keychainDictionary)
+        let status = SecItemDelete(keychainDictionary)
         
-        guard removeStatus == errSecSuccess else {
-            assertionFailure("Unable to remove object")
+        guard status == errSecSuccess else {
+            assertionFailure(OSStatusToError(status).localizedDescription)
             return
         }
     }
@@ -53,16 +53,16 @@ extension KeychainWrapper {
     static func hasValue(forKey key: String) -> Bool {
         let keychainDictionary = createKeychainDictionary(forKey: key, shouldReturn: false)
         
-        let returnStatus = SecItemCopyMatching(keychainDictionary, nil)
+        let status = SecItemCopyMatching(keychainDictionary, nil)
         var isExist: Bool
         
-        switch returnStatus {
+        switch status {
         case errSecSuccess:
             isExist = true
         case errSecItemNotFound:
             isExist = false
         default:
-            assertionFailure("Unable to get object")
+            assertionFailure(OSStatusToError(status).localizedDescription)
             isExist = false
         }
         
@@ -76,10 +76,10 @@ private extension KeychainWrapper {
     static func createValue(_ value: Data, forKey key: String) {
         let keychainDictionary = createKeychainDictionary(forKey: key, value: value)
         
-        let addStatus = SecItemAdd(keychainDictionary, nil)
+        let status = SecItemAdd(keychainDictionary, nil)
         
-        guard addStatus == errSecSuccess else {
-            assertionFailure("Unable to store value")
+        guard status == errSecSuccess else {
+            assertionFailure(OSStatusToError(status).localizedDescription)
             return
         }
     }
@@ -88,10 +88,10 @@ private extension KeychainWrapper {
         let keychainDictionary = createKeychainDictionary(forKey: key)
         let keychainValueDictionary = createKeychainValueDictionary(value)
         
-        let updateStatus = SecItemUpdate(keychainDictionary, keychainValueDictionary)
+        let status = SecItemUpdate(keychainDictionary, keychainValueDictionary)
         
-        guard updateStatus == errSecSuccess else {
-            assertionFailure("Unable to update value")
+        guard status == errSecSuccess else {
+            assertionFailure(OSStatusToError(status).localizedDescription)
             return
         }
     }
@@ -127,7 +127,7 @@ private extension KeychainWrapper {
     }
 }
 
-// MARK: - Codable
+// MARK: - Helper Methods
 
 private extension KeychainWrapper {
     static func encodeValue<T: Encodable>(_ value: T) -> Data? {
@@ -156,5 +156,13 @@ private extension KeychainWrapper {
         }
         
         return value
+    }
+    
+    static func OSStatusToError(_ status: OSStatus) -> Error {
+        let message = SecCopyErrorMessageString(status, nil) as String? ?? "Unknown error"
+        let userInfo = [NSLocalizedDescriptionKey: message]
+        let error = NSError(domain: NSOSStatusErrorDomain, code: Int(status), userInfo: userInfo)
+
+        return error
     }
 }
